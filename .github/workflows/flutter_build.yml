@@ -1,31 +1,44 @@
-name: Flutter CI
+name: Flutter Build
 
 on:
-  push:
-    branches:
-      - main
+push:
+branches:
+- main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+build:
+runs-on: ubuntu-latest
+timeout-minutes: 40
 
-    steps:
-      - uses: actions/checkout@v2
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v3
 
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: 'stable'
+  - name: Setup Flutter
+    uses: subosito/flutter-action@v2
+    with:
+      flutter-version: 'stable'
+      
+  - name: Install dependencies
+    run: flutter pub get
+    working-directory: ./online_mufti_final
 
-      - name: Install dependencies
-        run: flutter pub get
-        working-directory: ./online_mufti_final
+  - name: Build APK
+    run: flutter build apk --release
+    working-directory: ./online_mufti_final
 
-      - name: Build APK
-        run: flutter build apk --release
-        working-directory: ./online_mufti_final
+  - name: Build AppBundle (AAB)
+    run: flutter build appbundle --release
+    working-directory: ./online_mufti_final
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release.apk
-          path: ./online_mufti_final/build/app/outputs/flutter-apk/app-release.apk
+  - name: Upload APK Artifact
+    uses: actions/upload-artifact@v4
+    with:
+      name: release-apk
+      path: ./online_mufti_final/build/app/outputs/flutter-apk/app-release.apk
+
+  - name: Upload AAB Artifact
+    uses: actions/upload-artifact@v4
+    with:
+      name: release-aab
+      path: ./online_mufti_final/build/app/outputs/bundle/release/app-release.aab
