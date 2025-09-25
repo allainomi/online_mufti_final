@@ -1,0 +1,28 @@
+name: online_mufti_final
+description: Fixed Flutter project ready for migration. (Online Mufti)
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  http: ^0.13.6
+  provider: ^6.0.5
+  shared_preferences: ^2.2.2
+  url_launcher: ^6.1.14
+  google_fonts: ^6.1.0
+  intl: ^0.18.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.3
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
